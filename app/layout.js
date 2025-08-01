@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import { ClerkProvider, SignedOut, SignInButton } from "@clerk/nextjs";
-import { SignIn, UserButton } from "@clerk/clerk-react";
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Share } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,30 +21,35 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-   <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Header>
+  <div className="flex w-fit justify-center items-center gap-4">
+   <button className=" px-6 rounded-md shadow cursor-pointer  bg-black py-3 gap-2 text-white flex items-center justify-center">Share <Share/></button>
 
- <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Header>
-<div className="flex w-fit justify-center items-center gap-4">
+    <SignedOut>
+      <SignInButton
+        mode="modal"
+        appearance={{
+          elements: {
+            button:
+              "text-white cursor-pointer bg-transparent font-medium hover:text-gray-200 transition-colors duration-200",
+          },
+        }}
+      />
+    </SignedOut>
 
-  <p className="text-white">Fake Document</p>
-</div>
-<SignedOut>
-  <SignInButton/>
-</SignedOut>
-<SignIn>
-  <UserButton/>
-</SignIn>
-        </Header>
-        {children}
-      </body>
-    </html>
-
-
-   </ClerkProvider>
-
+    <SignedIn>
+      <UserButton />
+    </SignedIn>
+  </div>
+</Header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
