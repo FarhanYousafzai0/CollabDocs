@@ -1,5 +1,7 @@
+"use client"
+
 import { Loader } from '@/components/Loader'
-import { ClientSideSuspense, LiveblocksProvider, RoomProvider } from '@liveblocks/react'
+import { ClientSideSuspense, LiveblocksProvider} from '@liveblocks/react'
 import React from 'react'
 
 const Provider = ({children}) => {
@@ -7,7 +9,7 @@ const Provider = ({children}) => {
     <>
      <LiveblocksProvider authEndpoint={"/api/liveblocks-auth"}>
     
-        <ClientSideSuspense fallback={<><Loader/></>}>
+        <ClientSideSuspense fallback={<Loader/>}>
           {children}
         </ClientSideSuspense>
      

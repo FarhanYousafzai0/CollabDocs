@@ -1,8 +1,15 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 import { Share } from "lucide-react";
+import Provider from "./Provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,32 +29,33 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+      <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+        <body className="antialiased">
           <Header>
-  <div className="flex w-fit justify-center items-center gap-4">
-   <button className=" px-6 rounded-md shadow cursor-pointer  bg-black py-3 gap-2 text-white flex items-center justify-center">Share <Share/></button>
+            <div className="flex w-fit justify-center items-center gap-4">
+              <button className="px-6 py-3 rounded-md shadow cursor-pointer bg-black text-white flex items-center gap-2">
+                Share <Share />
+              </button>
 
-    <SignedOut>
-      <SignInButton
-        mode="modal"
-        appearance={{
-          elements: {
-            button:
-              "text-white cursor-pointer bg-transparent font-medium hover:text-gray-200 transition-colors duration-200",
-          },
-        }}
-      />
-    </SignedOut>
+              <SignedOut>
+                <SignInButton
+                  mode="modal"
+                  appearance={{
+                    elements: {
+                      button:
+                        "text-white cursor-pointer bg-transparent font-medium hover:text-gray-200 transition-colors duration-200",
+                    },
+                  }}
+                />
+              </SignedOut>
 
-    <SignedIn>
-      <UserButton />
-    </SignedIn>
-  </div>
-</Header>
-          {children}
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
+          </Header>
+
+          <Provider>{children}</Provider>
         </body>
       </html>
     </ClerkProvider>
